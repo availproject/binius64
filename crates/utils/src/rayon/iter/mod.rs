@@ -10,7 +10,7 @@ mod par_bridge;
 mod parallel_iterator;
 mod parallel_wrapper;
 
-pub use core::iter::{empty, once, repeat, repeat_n as repeatn};
+pub use core::iter::{empty, once, repeat};
 
 pub use from_parallel_iterator::FromParallelIterator;
 pub use indexed_parallel_iterator::IndexedParallelIterator;
@@ -22,3 +22,11 @@ pub use itertools::Either;
 pub use par_bridge::ParallelBridge;
 pub use parallel_iterator::ParallelIterator;
 pub(super) use parallel_wrapper::ParallelWrapper;
+
+pub fn repeat_n<T: Clone>(element: T, count: usize) -> ParallelWrapper<std::iter::RepeatN<T>> {
+	ParallelWrapper::new(core::iter::repeat_n(element, count))
+}
+
+pub fn repeatn<T: Clone>(element: T, count: usize) -> ParallelWrapper<std::iter::RepeatN<T>> {
+	repeat_n(element, count)
+}
